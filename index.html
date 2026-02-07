@@ -9,6 +9,183 @@
   <title>Frontend Mentor | Body Mass Index Calculator</title>
 </head>
 <body>
+  <div class="page">
+    <header class="main-header">
+      <div class="logo" aria-hidden="true"><img src="./assets/images/logo.svg" alt=""></div>
+      <h1 class="site-title tp tp-1">Body Mass Index Calculator</h1>
+      <p class="tp tp-6">Better understand your weight in relation to your height using our body mass index (BMI) calculator. While BMI is not the sole determinant of a healthy weight, it offers a valuable starting point to evaluate your overall health and well-being.</p>
+    </header>
 
+    <main>
+      <section class="calculator">
+        <h2 class="tp tp-4">Enter your details below</h2>
+
+        <form action="#" class="bmi-form">
+          <fieldset class="form-group metrics">
+            <legend class="tp tp-6 sr-only">Measurement system</legend>
+
+            <label class="tp tp-6 fw-semibold">
+              <input type="radio" name="unit" value="metric" checked class="radio">
+              Metric
+            </label>
+
+            <label class="tp tp-6 fw-semibold">
+              <input type="radio" name="unit" value="imperial" class="radio">
+              Imperial
+            </label>
+          </fieldset>
+
+          <fieldset class="metricUI" >
+            <div class="form-group">
+              <label class="metrics-label tp tp-7">
+                Height
+                <div class="input-with-unit">
+                  <input
+                    type="number"
+                    inputmode="decimal"
+                    name="height"
+                    id="height"
+                    autocomplete="off"
+                    class="tp tp-4 fw-semibold"
+                  >
+                  <span class="height-unit tp tp-4 fw-semibold">cm</span>
+                </div>
+              </label>
+              <div class="form-error"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="metrics-label tp tp-7">
+                Weight
+                <div class="input-with-unit">
+                  <input
+                    type="number"
+                    inputmode="decimal"
+                    name="weight"
+                    id="weight"
+                    autocomplete="off"
+                    class="tp tp-4 fw-semibold"
+                  >
+                  <span class="weight-unit tp tp-4 fw-semibold">kg</span>
+                </div>
+              </label>
+              <div class="form-error"></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="ImperialUI">
+            <div class="form-group">
+              <span class="metrics-label tp tp-7">Height</span>
+
+              <div class="imperial-grid">
+                <div class="input-with-unit">
+                  <input
+                    type="number"
+                    name="heightFt"
+                    inputmode="numeric"
+                    class="tp tp-4 fw-semibold"
+                  >
+                  <span class="height-unit tp tp-4 fw-semibold">ft</span>
+                </div>
+
+                <div class="input-with-unit">
+                  <input
+                    type="number"
+                    name="heightIn"
+                    inputmode="numeric"
+                    class="tp tp-4 fw-semibold"
+                  >
+                  <span class="height-unit tp tp-4 fw-semibold">in</span>
+                </div>
+              </div>
+
+              <div class="form-error"></div>
+            </div>
+          </fieldset>
+
+        </form>
+
+        <div class="score-wrapper">
+          <p class="tp tp-6 fw-semibold">Your BMI is...</p>
+          <h3 class="score tp tp-2">23.4</h3>
+          <p class="tp tp-7">Your BMI suggests you’re a healthy weight. Your ideal weight is between <span class="tp fw-bold">63.3kgs - 85.2kgs.</span></p>
+        </div>
+      </section>
+
+      <section class="bmi-info">
+        <div class="bmi-info-media">
+          <img src="./assets/images/image-man-eating.webp" alt="Man eating Sushi">
+        </div>
+        <div class="bmi-info-content">
+          <h2 class=" tp tp-3">What your BMI result means</h2>
+          <p class="tp tp-6">A BMI range of 18.5 to 24.9 is considered a 'healthy weight.' Maintaining a healthy weight may lower your chances of experiencing health issues later on, such as obesity and type 2 diabetes. Aim for a nutritious diet with reduced fat and sugar content, incorporating ample fruits and vegetables. Additionally, strive for regular physical activity, ideally about 30 minutes daily for five days a week.</p>
+        </div>
+      </section>
+
+      <section class="health-tips">
+        <div class="healthy-eating">
+          <img src="./assets/images/icon-eating.svg" alt="">
+          <h3 class="tp tp-4 fw-semibold">Healthy eating</h3>
+          <p class="tp tp-6">Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.</p>
+        </div>
+        <div class="exercise">
+          <img src="./assets/images/icon-exercise.svg" alt="">
+          <h3 class="tp tp-4 fw-semibold">Regular exercise</h3>
+          <p class="tp tp-6">Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.</p>
+        </div>
+        <div class="sleep">
+          <img src="./assets/images/icon-sleep.svg" alt="">
+          <h3 class="tp tp-4 fw-semibold">Adequate sleep</h3>
+          <p class="tp tp-6">Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.</p>
+        </div>
+      </section>
+
+      <section class="bmi-limitations">
+        <header>
+          <h2 class="tp tp-3 fw-semibold">Limitations of BMI</h2>
+          <p class="tp tp-6">Although BMI is often a practical indicator of healthy weight, it is not suited for every person. Specific groups should carefully consider their BMI outcomes, and in certain cases, the measurement may not be beneficial to use.</p>
+        </header>
+
+        <div class="bmi-limitations-content">
+          <div class="gender">
+            <div class="bmi-limitations-top">
+              <img src="./assets/images/icon-gender.svg" alt="">
+              <h4 class="tp tp-5 fw-semibold">Gender</h4>
+              <p class="tp tp-6">The development and body fat composition of girls and boys vary with age. Consequently, a child's age and gender are considered when evaluating their BMI.</p>
+            </div>
+          </div>
+          <div class="age">
+            <div class="bmi-limitations-top">
+              <img src="./assets/images/icon-age.svg" alt="">
+              <h4 class="tp tp-5 fw-semibold">Age</h4>
+              <p class="tp tp-6">In aging individuals, increased body fat and muscle loss may cause BMI to underestimate body fat content.</p>
+            </div>
+          </div>
+          <div class="muscle">
+            <div class="bmi-limitations-top">
+              <img src="./assets/images/icon-muscle.svg" alt="">
+              <h4 class="tp tp-5 fw-semibold">Muscle</h4>
+              <p class="tp tp-6">BMI may misclassify muscular individuals as overweight or obese, as it doesn't differentiate muscle from fat.</p>
+            </div>
+          </div>
+          <div class="pregnancy">
+            <div class="bmi-limitations-top">
+              <img src="./assets/images/icon-pregnancy.svg" alt="">
+              <h4 class="tp tp-5 fw-semibold">Pregnancy</h4>
+              <p class="tp tp-6">Expectant mothers experience weight gain due to their growing baby. Maintaining a healthy pre-pregnancy BMI is advisable to minimise health risks for both mother and child.</p>
+            </div>
+          </div>
+          <div class="race">
+            <div class="bmi-limitations-top">
+              <img src="./assets/images/icon-race.svg" alt="">
+              <h4 class="tp tp-5 fw-semibold">Race</h4>
+              <p class="tp tp-6">Certain health concerns may affect individuals of some Black and Asian origins at lower BMIs than others. To learn more, it is advised to discuss this with your GP or practice nurse.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+  </div>
 </body>
 </html>
