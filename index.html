@@ -20,7 +20,7 @@
       <section class="calculator">
         <h2 class="tp tp-4">Enter your details below</h2>
 
-        <form action="#" class="bmi-form">
+        <form action="#" class="bmi-form" novalidate>
           <fieldset class="form-group metrics">
             <legend class="tp tp-6 sr-only">Measurement system</legend>
 
@@ -35,7 +35,7 @@
             </label>
           </fieldset>
 
-          <fieldset class="metricUI" >
+          <fieldset class="metricUI">
             <div class="form-group">
               <label class="metrics-label tp tp-7">
                 Height
@@ -43,7 +43,11 @@
                   <input
                     type="number"
                     inputmode="decimal"
-                    name="height"
+                    pattern="[0-9]*"
+                    min="1"
+                    max="250"
+                    required
+                    name="heightCm"
                     id="height"
                     autocomplete="off"
                     class="tp tp-4 fw-semibold"
@@ -51,7 +55,7 @@
                   <span class="height-unit tp tp-4 fw-semibold">cm</span>
                 </div>
               </label>
-              <div class="form-error"></div>
+              <div class="form-error" hidden>Falsch</div>
             </div>
 
             <div class="form-group">
@@ -61,7 +65,10 @@
                   <input
                     type="number"
                     inputmode="decimal"
-                    name="weight"
+                    required
+                    min="1"
+                    max="400"
+                    name="weightKg"
                     id="weight"
                     autocomplete="off"
                     class="tp tp-4 fw-semibold"
@@ -73,6 +80,7 @@
             </div>
           </fieldset>
 
+          <!-- Imperial UI - standart HIDDEN -->
           <fieldset class="ImperialUI">
             <div class="form-group">
               <span class="metrics-label tp tp-7">Height</span>
@@ -81,7 +89,7 @@
                 <div class="input-with-unit">
                   <input
                     type="number"
-                    name="heightFt"
+                    name="heightFeet"
                     inputmode="numeric"
                     class="tp tp-4 fw-semibold"
                   >
@@ -91,11 +99,35 @@
                 <div class="input-with-unit">
                   <input
                     type="number"
-                    name="heightIn"
+                    name="heightInches"
                     inputmode="numeric"
                     class="tp tp-4 fw-semibold"
                   >
                   <span class="height-unit tp tp-4 fw-semibold">in</span>
+                </div>
+              </div>
+
+              <span class="metrics-label tp tp-7">Weight</span>
+
+              <div class="imperial-grid">
+                <div class="input-with-unit">
+                  <input
+                    type="number"
+                    name="weightSt"
+                    inputmode="numeric"
+                    class="tp tp-4 fw-semibold"
+                  >
+                  <span class="height-unit tp tp-4 fw-semibold">st</span>
+                </div>
+
+                <div class="input-with-unit">
+                  <input
+                    type="number"
+                    name="weightLbs"
+                    inputmode="numeric"
+                    class="tp tp-4 fw-semibold"
+                  >
+                  <span class="height-unit tp tp-4 fw-semibold">lbs</span>
                 </div>
               </div>
 
@@ -106,9 +138,15 @@
         </form>
 
         <div class="score-wrapper">
-          <p class="tp tp-6 fw-semibold">Your BMI is...</p>
-          <h3 class="score tp tp-2">23.4</h3>
-          <p class="tp tp-7">Your BMI suggests you’re a healthy weight. Your ideal weight is between <span class="tp fw-bold">63.3kgs - 85.2kgs.</span></p>
+          <div class="score-welcome">
+            <h3 class="tp tp-4 fw-semibold">Welcome!</h3>
+            <p class="tp tp-7">Enter your height and weight and you’ll see your BMI result here</p>
+          </div>
+          <div class="score-result" hidden>
+            <p class="tp tp-6 fw-semibold">Your BMI is...</p>
+            <h3 class="score tp tp-2"></h3>
+            <p class="tp tp-7">Your BMI suggests you’re a healthy weight. Your ideal weight is between <span class="tp fw-bold"><span id="weight-rangeLow">63.3</span>kgs - <span id="weight-rangeHigh">85.2</span>kgs.</span></p>
+          </div>
         </div>
       </section>
 
@@ -123,17 +161,17 @@
       </section>
 
       <section class="health-tips">
-        <div class="healthy-eating">
+        <div class="health-tip healthy-eating">
           <img src="./assets/images/icon-eating.svg" alt="">
           <h3 class="tp tp-4 fw-semibold">Healthy eating</h3>
           <p class="tp tp-6">Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.</p>
         </div>
-        <div class="exercise">
+        <div class="health-tip exercise">
           <img src="./assets/images/icon-exercise.svg" alt="">
           <h3 class="tp tp-4 fw-semibold">Regular exercise</h3>
           <p class="tp tp-6">Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.</p>
         </div>
-        <div class="sleep">
+        <div class="health-tip sleep">
           <img src="./assets/images/icon-sleep.svg" alt="">
           <h3 class="tp tp-4 fw-semibold">Adequate sleep</h3>
           <p class="tp tp-6">Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.</p>
@@ -147,40 +185,40 @@
         </header>
 
         <div class="bmi-limitations-content">
-          <div class="gender">
+          <div class="bmi-card gender">
             <div class="bmi-limitations-top">
               <img src="./assets/images/icon-gender.svg" alt="">
-              <h4 class="tp tp-5 fw-semibold">Gender</h4>
-              <p class="tp tp-6">The development and body fat composition of girls and boys vary with age. Consequently, a child's age and gender are considered when evaluating their BMI.</p>
+              <h4 class="tp tp-5 fw-semibold">Gender</h4>              
             </div>
+            <p class="tp tp-6">The development and body fat composition of girls and boys vary with age. Consequently, a child's age and gender are considered when evaluating their BMI.</p>
           </div>
-          <div class="age">
+          <div class="bmi-card age">
             <div class="bmi-limitations-top">
               <img src="./assets/images/icon-age.svg" alt="">
-              <h4 class="tp tp-5 fw-semibold">Age</h4>
-              <p class="tp tp-6">In aging individuals, increased body fat and muscle loss may cause BMI to underestimate body fat content.</p>
+              <h4 class="tp tp-5 fw-semibold">Age</h4>              
             </div>
+            <p class="tp tp-6">In aging individuals, increased body fat and muscle loss may cause BMI to underestimate body fat content.</p>
           </div>
-          <div class="muscle">
+          <div class="bmi-card muscle">
             <div class="bmi-limitations-top">
               <img src="./assets/images/icon-muscle.svg" alt="">
-              <h4 class="tp tp-5 fw-semibold">Muscle</h4>
-              <p class="tp tp-6">BMI may misclassify muscular individuals as overweight or obese, as it doesn't differentiate muscle from fat.</p>
+              <h4 class="tp tp-5 fw-semibold">Muscle</h4>              
             </div>
+            <p class="tp tp-6">BMI may misclassify muscular individuals as overweight or obese, as it doesn't differentiate muscle from fat.</p>
           </div>
-          <div class="pregnancy">
+          <div class="bmi-card pregnancy">
             <div class="bmi-limitations-top">
               <img src="./assets/images/icon-pregnancy.svg" alt="">
-              <h4 class="tp tp-5 fw-semibold">Pregnancy</h4>
-              <p class="tp tp-6">Expectant mothers experience weight gain due to their growing baby. Maintaining a healthy pre-pregnancy BMI is advisable to minimise health risks for both mother and child.</p>
+              <h4 class="tp tp-5 fw-semibold">Pregnancy</h4>              
             </div>
+            <p class="tp tp-6">Expectant mothers experience weight gain due to their growing baby. Maintaining a healthy pre-pregnancy BMI is advisable to minimise health risks for both mother and child.</p>
           </div>
-          <div class="race">
+          <div class="bmi-card race">
             <div class="bmi-limitations-top">
               <img src="./assets/images/icon-race.svg" alt="">
               <h4 class="tp tp-5 fw-semibold">Race</h4>
-              <p class="tp tp-6">Certain health concerns may affect individuals of some Black and Asian origins at lower BMIs than others. To learn more, it is advised to discuss this with your GP or practice nurse.</p>
             </div>
+            <p class="tp tp-6">Certain health concerns may affect individuals of some Black and Asian origins at lower BMIs than others. To learn more, it is advised to discuss this with your GP or practice nurse.</p>
           </div>
         </div>
       </section>

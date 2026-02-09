@@ -192,7 +192,7 @@
   box-sizing: border-box;
 }
 
-body, h1, h2, h3, p {
+body, h1, h2, h3, h4, h5, p {
   margin: 0;
 }
 
@@ -257,6 +257,10 @@ a {
 } */
 
 /* html, body { overflow-x: hidden; } */
+
+[hidden] {
+  display: none !important;
+}
 
 /* =========================================================
    LAYOUT
@@ -325,6 +329,7 @@ fieldset {
     flex-direction: column;
     gap: var(--space-24);
     padding: var(--space-24);
+    margin-bottom: var(--space-64);
 
     background-color: var(--white);
     border-radius: var(--radius-lg);
@@ -339,8 +344,12 @@ fieldset {
     background-color: var(--blue-500);
 }
 
-.score-wrapper > :first-child {
+.score-result > :first-child {
     margin-bottom: var(--space-8);
+}
+
+.score-welcome h3 {
+ margin-bottom: var(--space-24);
 }
 
 .score {
@@ -412,7 +421,7 @@ input[type="number"] {
   border: 1px solid var(--grey-500);
   background-color: var(--white);
 
-  font-size: var(--tp-6-size);
+  font-size: var(--tp-4-size);
 }
 
 input[type="number"]:focus-visible {
@@ -432,8 +441,9 @@ input[type="number"]:focus-visible {
   color: var(--blue-900);
 }
 
-.form-group > .metrics-label > :first-of-type {
-  margin-bottom: var(--space-16);
+.metricUI {
+  display: grid;
+  gap: var(--space-16);
 }
 
 .input-with-unit {
@@ -455,9 +465,8 @@ input[type="number"]:focus-visible {
 }
 
 .form-error {
-  position: absolute;
-  left: 20%;
-  bottom: -10px;
+  width: 100%;
+
   
   color: red;
 }
@@ -468,4 +477,76 @@ input[type="number"]:focus-visible {
   grid-template-columns: 1fr 1fr;
   gap: var(--space-16);
   margin-top: var(--space-8);
+}
+
+.imperial-grid:first-of-type {
+  margin-bottom: var(--space-16);
+}
+
+
+/* bmi-info-media */
+.bmi-info{
+  margin-bottom: var(--space-64);
+}
+
+.bmi-info-media {
+  margin-bottom: var(--space-48);
+}
+
+.bmi-info-content {
+  display: grid;
+  gap: var(--space-32);
+}
+
+.bmi-info-content p {
+  color: var(--grey-500);
+}
+
+/* health-tips */
+.health-tips {
+  margin-bottom: 80px;
+  padding-block: var(--space-48);
+}
+
+.health-tip:not(:last-of-type) {
+  margin-bottom: var(--space-40);
+}
+
+.health-tip img {
+  margin-bottom: var(--space-32);
+}
+
+.health-tip h3 {
+  margin-bottom: var(--space-24);
+}
+
+/* bmi-limitations */
+.bmi-limitations header {
+  display: grid;
+  gap: var(--space-32);
+  text-align: center;
+
+  margin-bottom: var(--space-56);
+}
+
+.bmi-limitations-content {
+  display: grid;
+  gap: var(--space-16);
+}
+
+.bmi-card {
+  display: grid;
+  gap: var(--space-16);
+  padding: var(--space-24);
+}
+
+.bmi-limitations-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.bmi-limitations-top img {
+  width: 32px;
+  height: 32px;
 }
