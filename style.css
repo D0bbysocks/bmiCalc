@@ -344,7 +344,7 @@ fieldset {
     background-color: var(--blue-500);
 }
 
-.score-result > :first-child {
+.bmi-score-wrapper > :first-child {
     margin-bottom: var(--space-8);
 }
 
@@ -362,6 +362,11 @@ fieldset {
     gap: var(--space-24);
 
     margin-bottom: var(--space-24);
+}
+
+.metrics > * {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .radio {
@@ -550,3 +555,111 @@ input[type="number"]:focus-visible {
   width: 32px;
   height: 32px;
 }
+
+
+@media (min-width: 720px) {
+  .imperial-grid {
+    gap: var(--space-24);
+  }
+
+  .imperial-grid:first-of-type {
+    margin-bottom: var(--space-32);
+  }
+
+  .calculator {
+    gap: var(--space-32);
+  }
+
+  .score-wrapper {
+  border-radius: 16px 80px 80px 16px;
+}
+
+
+  .score-result {
+    display: flex;
+    align-items: center;
+    gap: var(--space-24);
+  }
+
+  .score-result > * {
+    flex: 1 1 0;
+  }
+
+  .bmi-score-wrapper {
+    display: grid;
+    gap: var(--space-8);
+
+    /* margin-bottom: 0 !important; */
+  }
+
+  .score {
+    margin-bottom: 0;
+  }
+
+  .bmi-info {
+    display: flex;
+    gap: var(--space-72);
+    align-items: center;
+  }
+
+  .bmi-info > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .bmi-score-wrapper > :first-child {
+    margin-bottom: 0;
+  }
+
+  /* 50%-Spalte bleibt sauber */
+  .bmi-info-media {
+    height: 411px;
+    display: flex;
+    justify-content: flex-end;
+    overflow: visible;
+
+    margin: 0;
+  }
+
+  .bmi-info-media img {
+    height: 100%;
+    width: auto;
+    max-width: none;
+    display: block;
+
+  }
+
+  /* health-tip */
+  .health-tip{
+    display: flex;
+    gap: var(--space-40);
+    align-items: center;
+  }
+  .health-tip img {
+    margin: 0;
+  }
+
+  /* bmi-card */
+  .bmi-card {
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg);
+
+  }
+
+  .bmi-limitations-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .bmi-limitations-content > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    max-width: 50%; 
+  }
+  
+}
+
+
+
+

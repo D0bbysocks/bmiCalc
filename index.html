@@ -47,8 +47,7 @@
                     min="1"
                     max="250"
                     required
-                    name="heightCm"
-                    id="height"
+                    name="height"
                     autocomplete="off"
                     class="tp tp-4 fw-semibold"
                   >
@@ -68,8 +67,7 @@
                     required
                     min="1"
                     max="400"
-                    name="weightKg"
-                    id="weight"
+                    name="weight"
                     autocomplete="off"
                     class="tp tp-4 fw-semibold"
                   >
@@ -81,7 +79,7 @@
           </fieldset>
 
           <!-- Imperial UI - standart HIDDEN -->
-          <fieldset class="ImperialUI">
+          <fieldset class="ImperialUI" hidden>
             <div class="form-group">
               <span class="metrics-label tp tp-7">Height</span>
 
@@ -89,7 +87,7 @@
                 <div class="input-with-unit">
                   <input
                     type="number"
-                    name="heightFeet"
+                    name="height"
                     inputmode="numeric"
                     class="tp tp-4 fw-semibold"
                   >
@@ -113,7 +111,7 @@
                 <div class="input-with-unit">
                   <input
                     type="number"
-                    name="weightSt"
+                    name="weight"
                     inputmode="numeric"
                     class="tp tp-4 fw-semibold"
                   >
@@ -143,8 +141,10 @@
             <p class="tp tp-7">Enter your height and weight and you’ll see your BMI result here</p>
           </div>
           <div class="score-result" hidden>
-            <p class="tp tp-6 fw-semibold">Your BMI is...</p>
-            <h3 class="score tp tp-2"></h3>
+            <div class="bmi-score-wrapper">
+              <p class="tp tp-6 fw-semibold">Your BMI is...</p>
+              <h3 class="score tp tp-2"></h3>
+            </div>
             <p class="tp tp-7">Your BMI suggests you’re a healthy weight. Your ideal weight is between <span class="tp fw-bold"><span id="weight-rangeLow">63.3</span>kgs - <span id="weight-rangeHigh">85.2</span>kgs.</span></p>
           </div>
         </div>
@@ -163,19 +163,25 @@
       <section class="health-tips">
         <div class="health-tip healthy-eating">
           <img src="./assets/images/icon-eating.svg" alt="">
-          <h3 class="tp tp-4 fw-semibold">Healthy eating</h3>
-          <p class="tp tp-6">Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.</p>
+          <div class="health-tip-content">
+            <h3 class="tp tp-4 fw-semibold">Healthy eating</h3>
+            <p class="tp tp-6">Healthy eating promotes weight control, disease prevention, better digestion, immunity, mental clarity, and mood.</p>
+          </div>
         </div>
         <div class="health-tip exercise">
           <img src="./assets/images/icon-exercise.svg" alt="">
-          <h3 class="tp tp-4 fw-semibold">Regular exercise</h3>
-          <p class="tp tp-6">Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.</p>
-        </div>
+          <div class="health-tip-content">
+            <h3 class="tp tp-4 fw-semibold">Regular exercise</h3>
+            <p class="tp tp-6">Exercise improves fitness, aids weight control, elevates mood, and reduces disease risk, fostering wellness and longevity.</p>
+          </div>
+                  </div>
         <div class="health-tip sleep">
           <img src="./assets/images/icon-sleep.svg" alt="">
-          <h3 class="tp tp-4 fw-semibold">Adequate sleep</h3>
-          <p class="tp tp-6">Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.</p>
-        </div>
+          <div class="health-tip-content">
+            <h3 class="tp tp-4 fw-semibold">Adequate sleep</h3>
+            <p class="tp tp-6">Sleep enhances mental clarity, emotional stability, and physical wellness, promoting overall restoration and rejuvenation.</p>
+          </div>
+          </div>
       </section>
 
       <section class="bmi-limitations">

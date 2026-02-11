@@ -1,113 +1,76 @@
-/* =========================
-   DOM REFERENCES
-========================= */
+// DOM
+const metricsBtn = document.querySelectorAll(".metrics input");
+const inputs = document.querySelectorAll(".input-with-unit input");
 
 const metricUI = document.querySelector(".metricUI");
 const imperialUI = document.querySelector(".ImperialUI");
-const inputs = document.querySelectorAll(".input-with-unit input");
-const radios = document.querySelectorAll(".radio");
 
-let calcTimer;
+const bmiWelcomeUI = document.querySelector(".score-welcome");
+const bmiResultUI = document.querySelector(".score-result");
 
-/* =========================
-   STATE
-========================= */
-
+// STATE – single source of truth
 const state = {
   isMetric: true,
 
-  // metric
-  heightCm: null,
-  weightKg: null,
+  // Metric
+  height: null,
+  weight: null,
 
-  // imperial
-  heightFeet: null,
+  // Imperial
   heightInches: null,
-  weightSt: null,
   weightLbs: null,
 
-  // result
+  // BMI Score
   bmi: null,
+
+  // touched
+  touched: {
+    height: false,
+    weight: false,
+  },
 };
 
-/* =========================
-   VALIDATION MESSAGES
-========================= */
+// LOGIC / HELPERS
+function resetState() {
+  state.height = null;
+  state.weight = null;
+  state.bmi = null;
 
-const rangeMessages = {
-  weightKg: "Please enter a valid weight. (1-400 kg)",
-  heightCm: "Please enter a valid height. (30-250 cm)",
-  // optional:
-  // heightFeet: "...",
-  // heightInches: "...",
-  // weightSt: "...",
-  // weightLbs: "...",
-};
-
-/* =========================
-   UI: UNIT TOGGLE
-========================= */
-
-function updateUnitUI() {
-  metricUI.hidden = !state.isMetric;
-  imperialUI.hidden = state.isMetric;
-}
-
-/* =========================
-   PURE HELPERS (NO UI)
-========================= */
-
-function convertImperialToMetric() {
-  const feet = state.heightFeet ?? 0;
-  const inches = state.heightInches ?? 0;
-  const stone = state.weightSt ?? 0;
-  const pounds = state.weightLbs ?? 0;
-
-  // height
-  const totalInches = feet * 12 + inches;
-  const heightCm = totalInches * 2.54;
-
-  // weight
-  const totalLbs = stone * 14 + pounds;
-  const weightKg = totalLbs * 0.45359237;
-
-  return { heightCm, weightKg };
-}
-
-function getHealthyWeightRange(heightM) {
-  const min = 18.5 * heightM ** 2;
-  const max = 24.9 * heightM ** 2;
-
-  return {
-    min: min.toFixed(1),
-    max: max.toFixed(1),
+  state.touched = {
+    height: false,
+    weight: false,
   };
 }
 
-function isReady() {
-  if (state.isMetric) {
-    return state.heightCm > 0 && state.weightKg > 0;
-  }
+function clearInputsAndErrors() {
+  // Inputs leeren
+  inputs.forEach((input) => {
+    input.value = "";
+  });
 
-  return (
-    state.heightFeet != null &&
-    state.heightInches != null &&
-    state.weightSt != null &&
-    state.weightLbs != null &&
-    (state.weightSt > 0 || state.weightLbs > 0)
-  );
+  // Fehlertexte löschen + verstecken (falls vorhanden)
+  document.querySelectorAll(".form-error").forEach((el) => {
+    el.textContent = "";
+    el.hidden = true;
+  });
 }
 
-/* =========================
-   VALIDATION UI HELPERS
-========================= */
-
-function clearFieldError(input) {
-  const errorEl = input.closest(".form-group")?.querySelector(".form-error");
-  if (!errorEl) return;
-  errorEl.textContent = "";
-  errorEl.hidden = true;
+function resetAll() {
+  resetState();
+  clearInputsAndErrors();
+  renderBMI()
 }
+
+function updateStateFromInput(input) {
+  const value = input.value === "" ? null : Number(input.value);
+  state[input.name] = value;
+}
+
+// Fehlertext bestimmen (Custom Messages)
+const rangeMessages = {
+  height: "Please enter a valid height. (1–250 cm)",
+  weight: "Please enter a valid weight. (1–400 kg)",
+};
 
 function getErrorMessage(input) {
   const { validity: v, name } = input;
@@ -122,152 +85,108 @@ function getErrorMessage(input) {
   return "Invalid value.";
 }
 
-function showOrHideError(input) {
-  const errorEl = input.closest(".form-group")?.querySelector(".form-error");
-  if (!errorEl) return;
+function errorCheck(input) {
+  const v = input.validity;
 
-  if (!input.checkValidity()) {
-    errorEl.textContent = getErrorMessage(input);
-    errorEl.hidden = false;
-  } else {
-    clearFieldError(input);
-  }
-}
-
-/* =========================
-   RENDER FUNCTIONS
-========================= */
-
-function renderBmiUI() {
-  const welcome = document.querySelector(".score-welcome");
-  const result = document.querySelector(".score-result");
-
-  const hasBmi = state.bmi !== null;
-  welcome.hidden = hasBmi;
-  result.hidden = !hasBmi;
-}
-
-function renderBMI() {
-  if (!isReady()) {
-    // wenn nicht ready, Ergebnis zurücksetzen/ausblenden
-    state.bmi = null;
-    renderBmiUI();
+  // 1) Required nur anzeigen, wenn touched
+  if (v.valueMissing) {
+    const message = state.touched[input.name] ? getErrorMessage(input) : "";
+    errorRender(input, message);
     return;
   }
 
-  let heightCm, weightKg;
+  // 2) Alle anderen Fehler sofort (auch ohne touched)
+  const message = v.valid ? "" : getErrorMessage(input);
+  errorRender(input, message);
+}
 
+function isReady(height, weight) {
+  return  height != null &&
+          weight != null &&
+          height > 0 &&
+          weight > 0
+}
+
+function getMetricValues() {
   if (state.isMetric) {
-    heightCm = state.heightCm;
-    weightKg = state.weightKg;
-  } else {
-    ({ heightCm, weightKg } = convertImperialToMetric());
+    return { heightCm: state.height, weightKg: state.weight };
   }
 
-  const heightM = heightCm / 100;
-  const bmi = weightKg / (heightM * heightM);
+  let inches = (state.height * 12) + state.heightInches;
+  let heightCm = inches * 2.54;
 
-  state.bmi = Number(bmi.toFixed(1));
+  let pounds = (state.weight * 14) + state.weightLbs;
+  let weightKg = pounds * 0.45359237;
 
-  // Score anzeigen
-  document.querySelector(".score").textContent = state.bmi;
+  return {heightCm, weightKg};
+}
 
-  // Range anzeigen (wenn Element existiert)
-  const rangeEl = document.querySelector(".weight-range");
-  if (rangeEl) {
-    const range = getHealthyWeightRange(heightM);
-    rangeEl.textContent = `${range.min}kgs - ${range.max}kgs`;
+function calculateBMI() {
+  const { heightCm, weightKg } = getMetricValues();
+
+  if (!isReady(heightCm, weightKg)) {
+    state.bmi = null;
+    return
   }
 
-  renderBmiUI();
+  let height = heightCm / 100;
+  state.bmi = weightKg / (height * height);
 }
 
-/* =========================
-   INPUT → STATE
-========================= */
 
-function updateStateFromInput(input) {
-  const { name, value } = input;
-  const num = value.trim() === "" ? null : Number(value);
+// RENDER
+function renderMetricsUI() {
+  metricUI.hidden = !state.isMetric;
+  imperialUI.hidden = state.isMetric;
+}
 
-  if (num !== null && Number.isNaN(num)) return;
+function errorRender(input, message) {
+  const errorEl = input.closest(".form-group")?.querySelector(".form-error");
+  if (!errorEl) return;
 
-  if (state.isMetric) {
-    if (name === "heightCm") state.heightCm = num;
-    if (name === "weightKg") state.weightKg = num;
-  } else {
-    if (name === "heightFeet") state.heightFeet = num;
-    if (name === "heightInches") state.heightInches = num;
-    if (name === "weightSt") state.weightSt = num;
-    if (name === "weightLbs") state.weightLbs = num;
+  errorEl.textContent = message;
+  errorEl.hidden = message === "";
+}
+
+function renderBMI() {
+  const hasBMI = state.bmi !== null;
+
+  bmiWelcomeUI.hidden = hasBMI;
+  bmiResultUI.hidden = !hasBMI;
+
+  if (hasBMI) {
+    const showBmi = document.querySelector(".score");
+    showBmi.innerHTML = state.bmi.toFixed(1);
   }
 }
 
-/* =========================
-   SCHEDULING
-========================= */
-
-function scheduleRender() {
-  clearTimeout(calcTimer);
-  calcTimer = setTimeout(renderBMI, 500);
-}
-
-/* =========================
-   EVENT HANDLERS
-========================= */
-
-function onInput(e) {
-  const input = e.target;
-  console.log(input);
-  updateStateFromInput(input);
-  showOrHideError(input);
-  scheduleRender();
-}
-
-function metricCheck(e) {
-  state.isMetric = e.target.value === "metric";
-  resetInputs();
-  updateUnitUI();
-  scheduleRender();
-}
-
-/* =========================
-   RESET (NO VALIDATION TRIGGER)
-========================= */
-
-function resetInputs() {
-  // state reset
-  state.heightCm = null;
-  state.weightKg = null;
-  state.heightFeet = null;
-  state.heightInches = null;
-  state.weightSt = null;
-  state.weightLbs = null;
-  state.bmi = null;
-
-  // fields reset + errors clear (OHNE checkValidity)
-  inputs.forEach((i) => {
-    i.value = "";
-    clearFieldError(i);
+// EVENTS
+metricsBtn.forEach((btn) => {
+  btn.addEventListener("change", (e) => {
+    state.isMetric = e.target.value === "metric";
+    resetAll();
+    renderMetricsUI();
   });
-
-  renderBmiUI();
-}
-
-/* =========================
-   LISTENERS
-========================= */
-
-radios.forEach((btn) => btn.addEventListener("change", metricCheck));
+});
 
 inputs.forEach((input) => {
-  input.addEventListener("input", onInput);
+  // Beim Tippen: State updaten, Fehler nur zeigen wenn bereits touched
+  input.addEventListener("input", (e) => {
+    updateStateFromInput(e.target);
+    errorCheck(e.target);
+    calculateBMI();
+    renderBMI();
+  });
+
+  // Beim Verlassen: touched setzen, dann Fehler prüfen (required darf jetzt erscheinen)
+  input.addEventListener("blur", (e) => {
+    state.touched[e.target.name] = true;
+    errorCheck(e.target);
+  });
+
+  // Browser-Default-Tooltip verhindern
   input.addEventListener("invalid", (e) => e.preventDefault());
 });
 
-/* =========================
-   INIT
-========================= */
-
-updateUnitUI();
-renderBmiUI();
+// Initial
+renderMetricsUI();
