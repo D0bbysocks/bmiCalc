@@ -8,6 +8,9 @@ const imperialUI = document.querySelector(".ImperialUI");
 const bmiWelcomeUI = document.querySelector(".score-welcome");
 const bmiResultUI = document.querySelector(".score-result");
 
+const bmiRangeLow = document.querySelector("#weight-rangeLow");
+const bmiRangeHigh = document.querySelector("#weight-rangeHigh");
+
 // STATE – single source of truth
 const state = {
   isMetric: true,
@@ -22,6 +25,14 @@ const state = {
 
   // BMI Score
   bmi: null,
+  bmiMin: null,
+  bmiMax: null,
+
+  bmiMinSt: null,
+  bmiMinLbs: null,
+  bmiMaxSt: null,
+  bmiMaxLbs: null,
+
 
   // touched
   touched: {
@@ -131,10 +142,48 @@ function calculateBMI() {
 
   let height = heightCm / 100;
   state.bmi = weightKg / (height * height);
+
+  calculateBMIrange(height)
+}
+
+function calculateBMIrange(height) {
+  state.bmiMin = 18.5 * (height * height);
+  state.bmiMax = 24.9 * (height *height);
+}
+
+function BMIrangeImperial(weightInKg) {
+  const totalLbs = weightInKg * 2.20462;
+
+  let stone = Math.floor(totalLbs / 14);
+  let lbs = Math.round(totalLbs - stone * 14);
+
+  // Edge Case: wenn lbs durch Rundung 14 wird
+  if (lbs === 14) {
+    stone += 1;
+    lbs = 0;
+  }
+
+  return { stone, lbs };
 }
 
 
 // RENDER
+function renderBMIrange() {
+  if (!state.isMetric) {
+    const min = BMIrangeImperial(state.bmiMin);
+    const max = BMIrangeImperial(state.bmiMax);
+
+    bmiRangeLow.innerHTML = `${min.stone}st ${min.lbs}lbs`;
+    bmiRangeHigh.innerHTML = `${max.stone}st ${max.lbs}lbs`;
+
+
+  } else {
+    bmiRangeLow.innerHTML = `${state.bmiMin.toFixed(0)}kgs`;
+    bmiRangeHigh.innerHTML = `${state.bmiMax.toFixed(0)}kgs`;
+  }
+}
+
+
 function renderMetricsUI() {
   metricUI.hidden = !state.isMetric;
   imperialUI.hidden = state.isMetric;
@@ -157,6 +206,8 @@ function renderBMI() {
   if (hasBMI) {
     const showBmi = document.querySelector(".score");
     showBmi.innerHTML = state.bmi.toFixed(1);
+    renderBMIrange();
+
   }
 }
 

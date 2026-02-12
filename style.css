@@ -365,7 +365,7 @@ fieldset {
 }
 
 .metrics > * {
-  flex: 1 1 0;
+  flex: 1 1 0;   
   min-width: 0;
 }
 
@@ -570,6 +570,10 @@ input[type="number"]:focus-visible {
     gap: var(--space-32);
   }
 
+  .metricUI {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .score-wrapper {
   border-radius: 16px 80px 80px 16px;
 }
@@ -588,8 +592,6 @@ input[type="number"]:focus-visible {
   .bmi-score-wrapper {
     display: grid;
     gap: var(--space-8);
-
-    /* margin-bottom: 0 !important; */
   }
 
   .score {
@@ -652,7 +654,7 @@ input[type="number"]:focus-visible {
     gap: 1rem;
   }
 
-  .bmi-limitations-content > :last-child:nth-child(odd) {
+  .is-centered {
     grid-column: 1 / -1;
     justify-self: center;
     max-width: 50%; 
@@ -660,6 +662,232 @@ input[type="number"]:focus-visible {
   
 }
 
+
+
+/* PC Layout */
+@media (min-width: 1000px) {
+  .page {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--space-32);
+    align-items: start;
+
+    max-width: 2050px;
+
+    padding-block: 176px;
+    padding-inline: clamp(
+      var(--space-16),
+      calc(21.3vw - 197px),
+      var(--space-144)
+    );
+    margin-inline: auto;
+
+    position: relative;
+
+  }
+
+  .main-header .logo {
+    position: absolute;
+    top: 88px;
+    left: clamp(
+      var(--space-16),
+      calc(21.3vw - 197px),
+      var(--space-144)
+    );
+    width: var(--space-64);
+    height: var(--space-64);
+
+    /* transform: translateY(-50%); */
+  }
+
+  /* macht die Kinder von main zu direkten Grid-Items */
+
+  .page::before {
+    height: 737px;
+    width: 70%;
+  }
+
+
+  .page > main {
+    display: contents;
+  }
+
+  .page > header.main-header {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+
+    margin-bottom: 0;
+    margin-top: var(--space-72);
+
+    text-align: left;
+  }
+
+  .calculator {
+    grid-column: 7 / span 6;
+    grid-row: 1;
+
+    margin: 0;
+    margin-bottom: 200px;
+  }
+
+  .calculator:has(.ImperialUI:not([hidden])) {
+    margin-bottom: 100px;
+  }
+
+  /* alles nach dem calculator soll darunter über volle Breite */
+
+  .health-tips {
+    grid-column: 1 / -1;
+    grid-row: 3;
+
+    display: flex;
+    gap: var(--space-32);
+
+    margin-bottom: 200px;
+    padding: 0;
+  }
+
+  .health-tip {
+    display: grid;
+
+  }
+
+  .health-tip:not(:last-of-type) {
+    margin-bottom: 0;
+  }
+
+  .bmi-limitations {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+
+
+  .bmi-info {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    gap: min(13.1rem, 9vw);
+    justify-content: flex-start;
+    margin-inline: auto;
+    margin-bottom: 182px;
+  }
+
+  .bmi-info-media {
+    height: 533px;
+    flex: 0 0 auto;
+  }
+
+  .bmi-info-content {
+    max-width: 500px;
+    flex: 1 1 0;
+
+    margin-top: 120px;
+    position: relative;
+  }
+
+
+  .bmi-info > * {
+    flex: 0 1 auto; /* statt 1 1 0 */
+  }
+
+  .bmi-info-content .tp-3 {
+    --tp-size: var(--tp-2-size);
+    --tp-line: var(--tp-2-line);
+    --tp-track: var(--tp-2-track);
+  }
+
+  .bmi-score-wrapper .tp-2 {
+    --tp-size: var(--tp-1-size);
+    --tp-line: var(--tp-1-line);
+    --tp-track: var(--tp-1-track);
+  }
+
+  .bmi-info-content .deko {
+    background-image: url(./assets/images/pattern-curved-line-left.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    width: 85px;
+    height: 200px;
+
+    position: absolute;
+    top: 0;
+    right: 50px;
+    transform: translateY(-100%);
+  }
+
+
+  .bmi-limitations {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-32);
+    align-items: start;
+  }
+
+  .bmi-limitations header {
+    grid-column: 1 / 7;
+    grid-row: 1;
+  }
+
+  .bmi-limitations header .tp-3 {
+    --tp-size: var(--tp-2-size);
+    --tp-line: var(--tp-2-line);
+    --tp-track: var(--tp-2-track);
+  }
+
+  .bmi-limitations-content {
+    display: contents;
+  }
+
+  .bmi-limitations-content .gender {
+    grid-column: 8 / span 4;
+    grid-row: 1;
+  }
+
+  .bmi-card {
+    padding: var(--space-32);
+  }
+
+  .bmi-limitations-content .age {
+    grid-column: 5 / span 4;
+    grid-row: 2;
+
+    position: relative;
+  }
+
+  .bmi-limitations-content .age .deko {
+    background-image: url(./assets/images/pattern-curved-line-right.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    width: 85px;
+    height: 200px;
+
+    position: absolute;
+    top: -55px;
+    left: -139px;
+    transform: translateX(-100%);
+  }
+
+  .bmi-limitations-content .muscle {
+    grid-column: 9 / span 4;
+    grid-row: 2;
+  }
+
+  .bmi-limitations-content .pregnancy {
+    grid-column: 3 / span 4;
+    grid-row: 3;
+  }
+
+
+  .is-centered {
+    grid-column: 7 / span 4;
+    grid-row: 3;
+    max-width: none;
+  }
+}
 
 
 
