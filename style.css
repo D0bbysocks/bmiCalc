@@ -727,11 +727,11 @@ input[type="number"]:focus-visible {
     grid-row: 1;
 
     margin: 0;
-    margin-bottom: 200px;
+    margin-bottom: 160px;
   }
 
   .calculator:has(.ImperialUI:not([hidden])) {
-    margin-bottom: 100px;
+    margin-bottom: 80px;
   }
 
   /* alles nach dem calculator soll darunter über volle Breite */
